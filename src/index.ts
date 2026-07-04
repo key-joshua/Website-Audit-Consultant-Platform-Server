@@ -11,12 +11,12 @@ dotenv.config();
 const app: Express = express();
 const PORT: number = Number(process.env.PORT) || 3000;
 
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.set('trust proxy', 1);
 app.use(rateLimiter);
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
-app.use(express.json({ limit: '500mb' }));
-app.use(express.urlencoded({ limit: '500mb', extended: true }));
 
 app.use('/api', cacheMiddleware, router);
 

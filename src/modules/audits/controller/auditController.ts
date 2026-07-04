@@ -34,15 +34,19 @@ const auditWebsite = async (req, res) => {
     const { websitePagesUrls, auditPagesUrls } = await discoverWebsitePagesUrls(browser, req.body.url);
     await auditRepository.updateWebsiteByPk(req.body.id, { website_urls: websitePagesUrls });
     const audit = await auditRepository.createAudit(req.body);
+    const analyzedPages = [];
 
-    const analyzedPages = await Promise.all(auditPagesUrls.map(async (pageUrl) => {
-      const analyzedPage = await analyzePages(browser, pageUrl);
-      const collectedAuditIssues = await collectAuditIssues(analyzedPage);
-      const auditPage = await auditRepository.createAuditPages(audit.id, analyzedPage);
-      await Promise.all( collectedAuditIssues.map(async(issue) => await auditRepository.createAuditPagesIssues(auditPage.id, issue)) );
+    for (const pageUrl of auditPagesUrls) {
+        const analyzedPage = await analyzePages(browser, pageUrl);
+        const collectedAuditIssues = await collectAuditIssues(analyzedPage);
+        const auditPage = await auditRepository.createAuditPages(audit.id, analyzedPage);
 
-      return analyzedPage;
-    }));
+        for (const issue of collectedAuditIssues) {
+            await auditRepository.createAuditPagesIssues(auditPage.id, issue);
+        }
+
+        analyzedPages.push(analyzedPage);
+    }
 
     const collectedAuditReport = await collectAuditReports(websitePagesUrls, analyzedPages, (Date.now() - audit.created_at) + 5000);
     await auditRepository.createAuditReports(audit.id, collectedAuditReport);

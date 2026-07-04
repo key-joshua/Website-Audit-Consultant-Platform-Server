@@ -5,15 +5,15 @@ export const launchBrowser = async () => {
   return chromium.launch({ headless: true, args: [ '--no-sandbox', '--disable-setuid-sandbox' ] });
 };
 
-export const getPageContent = async (browser: Browser, websiteUrl: string): Promise<{ HTMLContentPage: string; statusCode: number }> => {
-  const page = await browser.newPage();
+export const getPageContent = async ( browser: Browser, websiteUrl: string ) => {
+    const page = await browser.newPage();
+    try {
+      const response = await page.goto(websiteUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+      return { HTMLContentPage: await page.content(), statusCode: response?.status() ?? 0 };
+    } finally {
+      await page.close();
+    }
 
-  const response = await page.goto(websiteUrl, { waitUntil: 'domcontentloaded', timeout: 60000, });
-  const HTMLContentPage = await page.content();
-  const statusCode = response?.status() ?? 0;
-
-  await page.close();
-  return { HTMLContentPage, statusCode };
 };
 
 export const extractPageUrls = async (html: string): Promise<string[]> => {

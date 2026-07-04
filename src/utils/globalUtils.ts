@@ -74,7 +74,6 @@ export const getAuditVersion = (audits: any[]): number => {
 
 export const getPageName = (pageUrl: string): string => {
     const pathname = new URL(pageUrl).pathname;
-
     if (pathname === '/' || pathname === '') return 'Home';
     return pathname .split('/') .filter(Boolean) .join(' / ');
 };

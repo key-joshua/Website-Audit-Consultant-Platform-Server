@@ -6,7 +6,7 @@ module.exports = {
       id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, primaryKey: true },
       website_id: { type: DataTypes.UUID, allowNull: false, references: { model: 'Websites', key: 'id' }, onDelete: 'CASCADE' },
       version: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
-      status: { type: DataTypes.ENUM('RUNNING', 'COMPLETED', 'FAILED'), allowNull: false, defaultValue: 'RUNNING' },
+      status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'RUNNING' },
       created_at: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
       updated_at: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
     });

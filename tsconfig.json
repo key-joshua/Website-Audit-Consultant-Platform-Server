@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "strict": true,
+      "lib": ["esnext"],
+      "sourceMap": true,
+      "target": "es2022",
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "module": "commonjs",
+      "skipLibCheck": true,
+      "noImplicitAny": false,
+      "esModuleInterop": true,
+      "strictNullChecks": false,
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "forceConsistentCasingInFileNames": true,
+    },
+
+    "exclude": ["node_modules"],
+}

@@ -1,0 +1,101 @@
+import { QueryInterface } from 'sequelize';
+
+const pageOne = {
+  id: 'c1a1f2d3-1111-4a11-9a11-aaaa11111111',
+  audit_id: 'b5b6d3c5-f2cb-4fd5-87b4-0fdab2a9f111',
+  page: 'Homepage',
+  page_url: 'https://blissagency.it',
+  status_code: 200,
+  title: 1,
+  meta_desc: 1,
+  h1_count: 1,
+  h2_count: 3,
+  cta_count: 2,
+  internal_links_count: 12,
+  external_links_count: 3,
+  images_count: 8,
+  images_missing_alt_count: 2,
+  created_at: new Date(),
+  updated_at: new Date(),
+};
+
+const pageTwo = {
+  id: 'c1a1f2d3-2222-4a22-9a22-bbbb22222222',
+  audit_id: 'b5b6d3c5-f2cb-4fd5-87b4-0fdab2a9f111',
+  page: 'About',
+  page_url: 'https://blissagency.it/about',
+  status_code: 200,
+  title: 1,
+  meta_desc: 1,
+  h1_count: 1,
+  h2_count: 2,
+  cta_count: 1,
+  internal_links_count: 8,
+  external_links_count: 1,
+  images_count: 5,
+  images_missing_alt_count: 1,
+  created_at: new Date(),
+  updated_at: new Date(),
+};
+
+const pageThree = {
+  id: 'c1a1f2d3-3333-4a33-9a33-cccc33333333',
+  audit_id: 'b5b6d3c5-f2cb-4fd5-87b4-0fdab2a9f111',
+  page: 'Services',
+  page_url: 'https://blissagency.it/services',
+  status_code: 200,
+  title: 1,
+  meta_desc: 0,
+  h1_count: 0,
+  h2_count: 4,
+  cta_count: 3,
+  internal_links_count: 15,
+  external_links_count: 2,
+  images_count: 10,
+  images_missing_alt_count: 4,
+  created_at: new Date(),
+  updated_at: new Date(),
+};
+
+const pageFour = {
+  id: 'd2a1f2d3-4444-4a44-9a44-dddd44444444',
+  audit_id: 'f2bc45d8-3d14-4dc6-8dc0-92f71a9b2222',
+  page: 'Home',
+  page_url: 'https://openai.com',
+  status_code: 200,
+  title: 1,
+  meta_desc: 1,
+  h1_count: 1,
+  h2_count: 2,
+  cta_count: 1,
+  internal_links_count: 10,
+  external_links_count: 5,
+  images_count: 6,
+  images_missing_alt_count: 0,
+  created_at: new Date(),
+  updated_at: new Date(),
+};
+
+const pageFive = {
+  id: 'e3a1f2d3-5555-4a55-9a55-eeee55555555',
+  audit_id: '1fdb69a7-1a83-48dd-9872-cd2e7fa93333',
+  page: 'Home',
+  page_url: 'https://github.com',
+  status_code: 200,
+  title: 1,
+  meta_desc: 0,
+  h1_count: 0,
+  h2_count: 3,
+  cta_count: 2,
+  internal_links_count: 18,
+  external_links_count: 4,
+  images_count: 12,
+  images_missing_alt_count: 6,
+  created_at: new Date(),
+  updated_at: new Date(),
+};
+
+module.exports = {
+  async up(queryInterface: QueryInterface) { await queryInterface.bulkInsert('AuditPages', [ pageOne, pageTwo, pageThree, pageFour, pageFive ]); },
+  async down(queryInterface: QueryInterface) { await queryInterface.bulkDelete('AuditPages', {}); },
+};

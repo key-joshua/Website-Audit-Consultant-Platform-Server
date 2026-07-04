@@ -2,7 +2,7 @@ import { load, CheerioAPI } from 'cheerio';
 import { chromium, Browser } from 'playwright';
 
 export const launchBrowser = async () => {
-    return await chromium.launch({ headless: true });
+  return chromium.launch({ headless: true, args: [ '--no-sandbox', '--disable-setuid-sandbox' ] });
 };
 
 export const getPageContent = async (browser: Browser, websiteUrl: string): Promise<{ HTMLContentPage: string; statusCode: number }> => {

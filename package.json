@@ -6,9 +6,9 @@
 	"scripts": {
 		"deleteAllTables": "tsc && npx sequelize db:migrate:undo:all",
 		"deleteAllSeeds": "tsc && npx sequelize db:seed:undo:all",
-    	"postinstall": "playwright install --with-deps chromium",
 		"createAllTables": "tsc && npx sequelize db:migrate",
 		"createAllSeeds": "tsc && npx sequelize db:seed:all",
+  		"postinstall": "playwright install chromium",
 		"kill-window": "Taskkill /IM node.exe /F",
 		"kill-linux": "killall -9 node",
 		"start": "ts-node ./src/index",

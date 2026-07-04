@@ -65,11 +65,9 @@ export const filterInternalLinks = async (urls: string[], baseUrl: string): Prom
 
     return { websitePagesUrls: internalLinks, auditPagesUrls: [...selected] };
 };
-
 export const getAuditVersion = (audits: any[]): number => {
-  if(audits.length === 0) return 1;
-  const latestAudit = audits.reduce((prev, current) => (prev.createdAt > current.createdAt) ? prev : current);
-  return latestAudit.version + 1;
+    if (audits.length === 0) return 1;
+    return audits.length + 1;
 };
 
 export const getPageName = (pageUrl: string): string => {

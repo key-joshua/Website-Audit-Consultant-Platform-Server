@@ -8,7 +8,7 @@ import { collectAuditIssues, collectAuditReports } from '../../../utils/globalUt
 const getWebsiteAuditVersions = async (req, res) => {
   try {
     const auditVersions = await auditRepository.findAuditVersions(req.params.domain);
-    responseUtils.handleSuccess(StatusCodes.OK, 'Audit versions found successfully.', { auditVersions });
+    responseUtils.handleSuccess(StatusCodes.OK, 'Audit versions found successfully.', auditVersions);
     return responseUtils.response(res);
   } catch (error: any) {
     responseUtils.handleError(StatusCodes.INTERNAL_SERVER_ERROR, error.message || 'Internal Server Error');
@@ -19,7 +19,7 @@ const getWebsiteAuditVersions = async (req, res) => {
 const getWebsiteAuditVersion = async (req, res) => {
   try {
     const auditVersion = await auditRepository.findAuditByPk(req.params.id);
-    responseUtils.handleSuccess(StatusCodes.OK, 'Audit version found successfully.', { auditVersion });
+    responseUtils.handleSuccess(StatusCodes.OK, 'Audit version found successfully.', auditVersion);
     return responseUtils.response(res);
   } catch (error: any) {
     responseUtils.handleError(StatusCodes.INTERNAL_SERVER_ERROR, error.message || 'Internal Server Error');

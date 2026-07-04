@@ -36,27 +36,27 @@ const rateLimiter = rateLimit({
 });
 
 const cacheMiddleware = (req, res, next) => {
-  const method = req.method;
-  if (method !== 'GET' && method !== 'POST') return next();
+    const method = req.method;
+    if (method !== 'GET' && method !== 'POST') return next();
 
-  const domain = extractDomain(req);
-  const cacheKey = `audit:${domain}`;
-  const cachedResponse = cache.get(cacheKey);
+    const domain = extractDomain(req);
+    const cacheKey = `audit:${domain}`;
+    const cachedResponse = cache.get(cacheKey);
 
-  if (cachedResponse) {
-    console.log(`CACHE FOUND: ${domain}`);
-    res.send(cachedResponse);
-    return;
-  }
+    if (cachedResponse) {
+        console.log(`CACHE FOUND: ${domain}`);
+        res.send(cachedResponse);
+        return;
+    }
 
-  console.log(`CACHE NOT FOUND: ${domain}`);
-  const originalSend = res.send;
-  res.send = function (body: any) {
-    if (res.statusCode >= 200 && res.statusCode < 300) cache.set(cacheKey, typeof body === 'string' ? JSON.parse(body) : body);
-    return originalSend.call(this, body);
-  };
+    console.log(`CACHE NOT FOUND: ${domain}`);
+    const originalSend = res.send;
+    res.send = function (body: any) {
+        if (res.statusCode >= 200 && res.statusCode < 300) cache.set(cacheKey, typeof body === 'string' ? JSON.parse(body) : body);
+        return originalSend.call(this, body);
+    };
 
-  next();
+    next();
 };
 
 export {

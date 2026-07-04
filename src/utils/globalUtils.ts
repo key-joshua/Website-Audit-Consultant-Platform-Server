@@ -6,7 +6,7 @@ const ctaTexts = [ 'contact', 'contact us', 'book', 'book now', 'buy', 'buy now'
 
 export const extractDomain = (req: any): string => {
   try {
-    const raw = req.body?.url || req.query?.url;
+    const raw = req.body?.url || req.query?.url || req.params.domain || req.params.id;
     if (typeof raw !== "string") return "unknown";
     return new URL(raw).hostname.replace(/^www\./, "").toLowerCase();
   } catch {

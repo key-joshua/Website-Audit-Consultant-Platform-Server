@@ -31,25 +31,28 @@ const findAuditVersions = async (domain: string): Promise<any> => {
 };
 
 const findAuditByPk = async (id: string) => {
-  return await Audits.findByPk(id, {
+  const auditVersion = await Audits.findByPk(id);
+  return await Websites.findByPk(auditVersion.website_id, {
     include: [
       {
-        model: Websites,
-        as: 'Website',
-      },
-      {
-        model: AuditPages,
-        as: 'AuditPages',
+        model: Audits,
+        as: 'Audits',
         include: [
           {
-            model: AuditPageIssues,
-            as: 'AuditPageIssues',
+            model: AuditPages,
+            as: 'AuditPages',
+            include: [
+              {
+                model: AuditPageIssues,
+                as: 'AuditPageIssues',
+              },
+            ],
+          },
+          {
+            model: AuditReports,
+            as: 'AuditReports',
           },
         ],
-      },
-      {
-        model: AuditReports,
-        as: 'AuditReports',
       },
     ],
   });

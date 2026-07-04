@@ -3,10 +3,11 @@ import { getAuditVersion } from '../../../utils/globalUtils';
 const { Websites, Audits, AuditPages, AuditPageIssues, AuditReports } = models;
 
 const findAuditVersions = async (domain: string): Promise<any> => {
-  return await Websites.findOne({
+  return await Websites.findAll({
     where: { domain },
     include: [
       {
+        order: [['created_at', 'DESC']],
         model: Audits,
         as: 'Audits',
         include: [
@@ -32,9 +33,11 @@ const findAuditVersions = async (domain: string): Promise<any> => {
 
 const findAuditByPk = async (id: string) => {
   const auditVersion = await Audits.findByPk(id);
-  return await Websites.findByPk(auditVersion.website_id, {
+  return await Websites.findAll({
+    where: { id: auditVersion.website_id },
     include: [
       {
+        order: [['created_at', 'DESC']],
         model: Audits,
         as: 'Audits',
         include: [
@@ -55,6 +58,7 @@ const findAuditByPk = async (id: string) => {
         ],
       },
     ],
+
   });
 };
 

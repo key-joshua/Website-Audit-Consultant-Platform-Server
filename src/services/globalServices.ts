@@ -1,8 +1,6 @@
 import { load, CheerioAPI } from 'cheerio';
 import { chromium } from 'playwright';
-
 let pageCounter = 0;
-pageCounter++;
 
 export const launchBrowser = async () => {
   console.log("🚀 BROWSER LAUNCHED");

@@ -18,7 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', 1);
 app.use(rateLimiter);
 
-app.use('/api', cacheMiddleware, router);
+app.use('/api', router);
+// app.use('/api', cacheMiddleware, router);
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`WEBSITE AUDIT CONSULTANT PLATFORM SERVER IS RUNNING ON PORT ${PORT}`);

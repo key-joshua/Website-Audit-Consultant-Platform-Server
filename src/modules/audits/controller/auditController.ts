@@ -29,15 +29,17 @@ const getWebsiteAuditVersion = async (req, res) => {
 
 const auditWebsite = async (req, res) => {
   const browser = await launchBrowser();
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
 
   try {
-    const { websitePagesUrls, auditPagesUrls } = await discoverWebsitePagesUrls(browser, req.body.url);
+    const { websitePagesUrls, auditPagesUrls } = await discoverWebsitePagesUrls(page, req.body.url);
     await auditRepository.updateWebsiteByPk(req.body.id, { website_urls: websitePagesUrls });
     const audit = await auditRepository.createAudit(req.body);
     const analyzedPages = [];
 
     for (const pageUrl of auditPagesUrls) {
-        const analyzedPage = await analyzePages(browser, pageUrl);
+        const analyzedPage = await analyzePages(page, pageUrl);
         const collectedAuditIssues = await collectAuditIssues(analyzedPage);
         const auditPage = await auditRepository.createAuditPages(audit.id, analyzedPage);
 
@@ -60,7 +62,12 @@ const auditWebsite = async (req, res) => {
     return responseUtils.response(res);
   }
   finally {
+    await page.close();
+    console.log("🛑 WINDOW PAGE CLOSED");
+    await ctx.close();
+    console.log("🛑 WINDOW PAGE CTX CLOSED");
     await browser.close();
+    console.log("🛑 BROWSER CLOSED");
   }
 };
 

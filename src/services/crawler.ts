@@ -1,11 +1,10 @@
-import { Browser } from 'playwright';
 import { load, CheerioAPI } from 'cheerio';
 import { getPageContent, extractPageUrls } from './globalServices';
 import { filterInternalLinks, normalizeUrls, countTitles, countMetaDescriptions, countHeadings, countImagesWithoutAlt, countImages, countCTAs, countExternalLinks, countInternalLinks, getPageName } from '../utils/globalUtils';
 
-export const discoverWebsitePagesUrls = async(browser: Browser, websiteUrl: string): Promise<{ websitePagesUrls: string[], auditPagesUrls: string[] }> => {
+export const discoverWebsitePagesUrls = async(page, websiteUrl: string): Promise<{ websitePagesUrls: string[], auditPagesUrls: string[] }> => {
      try {
-        const { HTMLContentPage } = await getPageContent(browser, websiteUrl);
+        const { HTMLContentPage } = await getPageContent(page, websiteUrl);
         const websitePageUrls = await extractPageUrls(HTMLContentPage);
         if(websitePageUrls.length === 0) { throw new Error('No other pages found on the website.'); }
 
@@ -21,9 +20,9 @@ export const discoverWebsitePagesUrls = async(browser: Browser, websiteUrl: stri
     }
 };
 
-export const analyzePages = async(browser: Browser, websiteUrl: string): Promise<{ statusCode: number; page: string; pageUrl: string; title: number; metaDescription: number; h1: number; h2: number; h3?: number; ctaCount: number; internalLinksCount: number; externalLinksCount: number; images: number; imagesWithoutAlt: number; }> => {
+export const analyzePages = async(page, websiteUrl: string): Promise<{ statusCode: number; page: string; pageUrl: string; title: number; metaDescription: number; h1: number; h2: number; h3?: number; ctaCount: number; internalLinksCount: number; externalLinksCount: number; images: number; imagesWithoutAlt: number; }> => {
      try {
-        const { HTMLContentPage, statusCode } = await getPageContent(browser, websiteUrl);
+        const { HTMLContentPage, statusCode } = await getPageContent(page, websiteUrl);
         const websitePageUrls = await extractPageUrls(HTMLContentPage);
         const normalizedUrls = await normalizeUrls(websitePageUrls, websiteUrl);
         const $: CheerioAPI = load(HTMLContentPage);

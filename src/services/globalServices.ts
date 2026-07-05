@@ -1,19 +1,19 @@
 import { load, CheerioAPI } from 'cheerio';
-import { chromium, Browser } from 'playwright';
+import { chromium } from 'playwright';
+
+let pageCounter = 0;
+pageCounter++;
 
 export const launchBrowser = async () => {
-  return chromium.launch({ headless: true, args: [ '--no-sandbox', '--disable-setuid-sandbox' ] });
+  console.log("🚀 BROWSER LAUNCHED");
+  return chromium.launch({ headless: true });
 };
 
-export const getPageContent = async ( browser: Browser, websiteUrl: string ) => {
-    const page = await browser.newPage();
-    try {
-      const response = await page.goto(websiteUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
-      return { HTMLContentPage: await page.content(), statusCode: response?.status() ?? 0 };
-    } finally {
-      await page.close();
-    }
-
+export const getPageContent = async (page, websiteUrl: string) => {
+  pageCounter++;
+  console.log(`📄 Visiting page ${pageCounter}: ${websiteUrl}`);
+  const response = await page.goto(websiteUrl, { waitUntil: "domcontentloaded", timeout: 30000 });
+  return { HTMLContentPage: await page.content(), statusCode: response?.status() ?? 0 };
 };
 
 export const extractPageUrls = async (html: string): Promise<string[]> => {

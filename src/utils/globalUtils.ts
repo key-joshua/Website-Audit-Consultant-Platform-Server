@@ -154,27 +154,36 @@ export const collectAuditIssues = (analyzedPage: { title: number; metaDescriptio
     return issues;
 };
 
-export const calculateAuditScore = (pages: any[]): number => {
+export const calculatePageScore = (page: any): number => {
   let score = 100;
 
-  for (const page of pages) {
-    const metaDescription = safeNumber(page.metaDescription);
-    const statusCode = safeNumber(page.statusCode);
-    const title = safeNumber(page.title);
-    const h1 = safeNumber(page.h1);
-    const h2 = safeNumber(page.h2);
-    const imagesWithoutAlt = safeNumber(page.imagesWithoutAlt);
+  const metaDescription = safeNumber(page.metaDescription);
+  const statusCode = safeNumber(page.statusCode);
+  const title = safeNumber(page.title);
+  const h1 = safeNumber(page.h1);
+  const h2 = safeNumber(page.h2);
+  const imagesWithoutAlt = safeNumber(page.imagesWithoutAlt);
 
-    if (metaDescription === 0) score -= 8;
-    if (statusCode >= 400) score -= 20;
-    if (title === 0) score -= 10;
-    if (h1 === 0) score -= 10;
-    if (h2 === 0) score -= 4;
+  if (metaDescription === 0) score -= 8;
+  if (statusCode >= 400) score -= 20;
+  if (title === 0) score -= 10;
+  if (h1 === 0) score -= 10;
+  if (h2 === 0) score -= 4;
 
-    score -= imagesWithoutAlt;
+  score -= imagesWithoutAlt;
+
+  return Math.max(0, score);
+};
+
+export const calculateAuditScore = (analyzedPages: any[]): number => {
+  let total = 0;
+  if (!analyzedPages.length) return 0;
+
+  for (const page of analyzedPages) {
+    total += calculatePageScore(page);
   }
 
-  return Math.max(0, Math.round(score));
+  return Math.round(total / analyzedPages.length);
 };
 
 export const collectAuditReports = (totalWebsitePages: string[], analyzedPages: any[], auditDurationMs: number) => {

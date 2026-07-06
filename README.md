@@ -17,7 +17,7 @@ This a web app that collects basic public data from a website and turns it into 
 
 2. Copy `.env.example` to `.env` and add values to all variables.
 
-3. Run this command ```docker compose build```
+3. Run this command ```docker compose up --build -d```
 
 4. Run this command ```docker compose up -d```
 

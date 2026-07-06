@@ -86,8 +86,7 @@ export const countMetaDescriptions = ($: CheerioAPI): number => {
   const description =
     $('meta[name="description"]').attr('content') ||
     $('meta[property="og:description"]').attr('content') ||
-    $('meta[name="twitter:description"]').attr('content') ||
-    '';
+    $('meta[name="twitter:description"]').attr('content') || '';
 
   return description.trim().length > 0 ? 1 : 0;
 };

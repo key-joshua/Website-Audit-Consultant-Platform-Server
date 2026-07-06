@@ -26,7 +26,7 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 app.get('**', (req, res) => {
-  res.status(StatusCodes.OK).json({ status: StatusCodes.OK, message: 'WELCOME TO THE WEBSITE AUDIT CONSULTANT PLATFORM SERVER.' });
+  res.status(StatusCodes.OK).json({ status: StatusCodes.OK, message: `WELCOME TO THE WEBSITE AUDIT CONSULTANT PLATFORM SERVER. ${process.env.SERVER_ID} || unknown` });
 });
 
 export default app;

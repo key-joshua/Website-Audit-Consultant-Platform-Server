@@ -1,8 +1,9 @@
 import { URL } from 'url';
 import { CheerioAPI } from 'cheerio';
 
+export const isSuccess = (code: number) => code >= 200 && code < 400;
 export const safeNumber = (v: any) => (typeof v === 'number' ? v : 0);
-const ctaTexts = [ 'contact', 'contact us', 'book', 'book now', 'buy', 'buy now', 'get started', 'learn more', 'request', 'schedule', 'sign up', 'register', 'join', 'sign in', 'login', 'subscribe', 'download', 'try', 'call now', 'inquire' ];
+export const ctaTexts = [ 'contact', 'contact us', 'book', 'book now', 'buy', 'buy now', 'get started', 'learn more', 'request', 'schedule', 'sign up', 'register', 'join', 'sign in', 'login', 'subscribe', 'download', 'try', 'call now', 'inquire' ];
 
 export const extractDomain = (req: any): string => {
   try {
@@ -190,7 +191,7 @@ export const collectAuditReports = (totalWebsitePages: string[], analyzedPages: 
   const totalPages = totalWebsitePages.length;
   const totalAuditedPages = analyzedPages.length;
   const successfulAuditedPages = analyzedPages.filter(page => safeNumber(page.statusCode) < 400).length;
-  const failedAuditedPages = analyzedPages.filter(page => safeNumber(page.statusCode) >= 200 && safeNumber(page.statusCode) < 400).length;
+  const failedAuditedPages = analyzedPages.filter( page => !isSuccess(safeNumber(page.statusCode)) ).length;
   const pagesMissingTitle = analyzedPages.filter(page => safeNumber(page.title) === 0).length;
   const pagesMissingMeta = analyzedPages.filter(page => safeNumber(page.metaDescription) === 0).length;
   const pagesMissingH1 = analyzedPages.filter(page => safeNumber(page.h1) === 0).length;

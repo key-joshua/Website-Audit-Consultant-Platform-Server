@@ -181,7 +181,7 @@ export const collectAuditReports = (totalWebsitePages: string[], analyzedPages: 
   const totalPages = totalWebsitePages.length;
   const totalAuditedPages = analyzedPages.length;
   const successfulAuditedPages = analyzedPages.filter(page => safeNumber(page.statusCode) < 400).length;
-  const failedAuditedPages = analyzedPages.filter(page => safeNumber(page.statusCode) > 400).length;
+  const failedAuditedPages = analyzedPages.filter(page => safeNumber(page.statusCode) >= 200 && safeNumber(page.statusCode) < 400).length;
   const pagesMissingTitle = analyzedPages.filter(page => safeNumber(page.title) === 0).length;
   const pagesMissingMeta = analyzedPages.filter(page => safeNumber(page.metaDescription) === 0).length;
   const pagesMissingH1 = analyzedPages.filter(page => safeNumber(page.h1) === 0).length;

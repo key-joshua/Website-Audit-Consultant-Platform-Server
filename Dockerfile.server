@@ -5,13 +5,9 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm install
-RUN npx sequelize init
 
 COPY . .
 
 EXPOSE 3000
 
-RUN npm run deleteAllTables
-RUN npm run createAllTables
-RUN npm run createAllSeeds
 CMD ["npm", "run", "dev"]

@@ -19,8 +19,6 @@ This a web app that collects basic public data from a website and turns it into 
 
 3. Run this command ```docker compose up --build -d```
 
-4. Run this command ```docker compose up -d```
-
 4. Run this commands:
    - ```docker compose exec server_replicate_1 npm run deleteAllTables```
 
